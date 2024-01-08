@@ -30,7 +30,8 @@ public class Output {
         System.out.println(orderNumber + ". 주문 | " + (orderNumber+1) +". 취소");
     }
 
-    public double printProduct(List<Product> productList,int productNumberCheck,List<Product> cart){
+    public double printProduct(List<Product> productList,int productNumberCheck,List<Product> cart, double totalPrice){
+        double priceSum = totalPrice;
         printWelcomeCafe();
         List<Product> products = new ArrayList<>();
         String format = "%d. %s | 가격 : %d | %s\n";
@@ -39,7 +40,8 @@ public class Output {
             productNumber = checkProductMenuType(product, productNumberCheck,format, productNumber,products);
         }
         int productCheck = Input.sc.nextInt() - 1;
-        return printAddProductComplete(products,productCheck,cart);
+        priceSum += printAddProductComplete(products,productCheck,cart);
+        return priceSum;
     }
 
     public int checkProductMenuType(Product product, int productNumberCheck,String format, int productNumber, List<Product> products){
@@ -59,7 +61,7 @@ public class Output {
         return Input.sc.nextInt();
     }
 
-    public double printAddProductComplete(List<Product> products, int productCheck, List<Product> cart){
+    public Double printAddProductComplete(List<Product> products, int productCheck, List<Product> cart){
         int checkProduct = 1;
         if(printCheckProduct(products.get(productCheck),productCheck) == checkProduct){
             cart.add(products.get(productCheck));
@@ -81,7 +83,7 @@ public class Output {
         }
         System.out.println("--------------------------------------------------");
         System.out.print("총 금액 : ");
-        System.out.println(totalPrice);
+        System.out.println((int)totalPrice);
         System.out.println();
         System.out.println("주문하시겠습니까?");
         System.out.println("1. 확인                  2. 취소");
@@ -96,10 +98,11 @@ public class Output {
         delay(1000);
     }
 
-    public void printOrderComplete(){
+    public void printOrderComplete(int waitingNumber){
         System.out.println("ㅁ------------------------ㅁ");
         System.out.println("|    주문이 완료되었습니다!   |");
         System.out.println("ㅁ------------------------ㅁ");
+        System.out.println("대기순번은 " + waitingNumber + "입니다.");
         System.out.println("3초뒤에 메인메뉴로 돌아갑니다....");
         delay(3000);
     }
